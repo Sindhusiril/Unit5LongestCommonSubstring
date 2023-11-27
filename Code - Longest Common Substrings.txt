@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+
+std::string lg_str(const std::string& stg1, const std::string& stg2) {
+    int l1 = stg1.length();
+    int l2 = stg2.length();
+
+    std::vector<std::vector<int>> d_p(l1 + 1, std::vector<int>(l2 + 1, 0));
+    int m_l = 0; // maxLen
+    int e_index = 0; // endIndex
+
+    for (int i = 1; i <= l1; ++i) {
+        for (int j = 1; j <= l2; ++j) {
+            if (stg1[i - 1] == stg2[j - 1]) {
+                d_p[i][j] = d_p[i - 1][j - 1] + 1;
+                if (d_p[i][j] > m_l) {
+                    m_l = d_p[i][j];
+                    e_index = i - 1;
+                }
+            } else {
+                d_p[i][j] = 0;
+            }
+        }
+    }
+
+    std::string l_stg = stg1.substr(e_index - m_l + 1, m_l);
+    return l_stg;
+}
+
+int main() {
+    std::string stg1 = "ABAB";
+    std::string stg2 = "BABA";
+
+    std::string lg_substr = lg_str(stg1, stg2);
+    std::cout << "Longest Common Substring: " << lg_substr << std::endl;
+
+    return 0;
+}
